@@ -2,24 +2,28 @@
 {% block title %}About — Joseph Ombati{% endblock %}
 {% block content %}
 <div class="section text-center mt-5">
+  <!-- Heading -->
   <h2 class="hero-name">
     {% for word in heading_words %}
-      <span class="animated-word" style="animation-delay: {{ forloop.counter0|floatformat:1|add:heading_offset|floatformat:1 }}s">{{ word }}</span>
+     <span class="animated-word" style="animation-delay: {{ forloop.counter0|mul:"0.2"|add:line_offset|floatformat:1 }}s">{{ word }}</span>
     {% endfor %}
   </h2>
 
-  <p class="hero-paragraph">
-    {% for word in para1_words %}
-      <span class="animated-word" style="animation-delay: {{ forloop.counter0|floatformat:1|add:para1_offset|floatformat:1 }}s">{{ word }}</span>
-    {% endfor %}
-  </p>
+  <!-- Paragraphs -->
+  <div class="mt-4">
+    <p class="hero-paragraph">
+      {% for word in para1_words %}
+      <span class="animated-word" style="animation-delay: {{ forloop.counter0|mul:"0.2"|add:line_offset|floatformat:1 }}s">{{ word }}</span>
+      {% endfor %}
+    </p>
+    <p class="hero-paragraph">
+      {% for word in para2_words %}
+       <span class="animated-word" style="animation-delay: {{ forloop.counter0|mul:"0.2"|add:line_offset|floatformat:1 }}s">{{ word }}</span>
+      {% endfor %}
+    </p>
+  </div>
 
-  <p class="hero-paragraph">
-    {% for word in para2_words %}
-      <span class="animated-word" style="animation-delay: {{ forloop.counter0|floatformat:1|add:para2_offset|floatformat:1 }}s">{{ word }}</span>
-    {% endfor %}
-  </p>
-
+  <!-- Back Button -->
   <div class="mt-5">
     <a href="{% url 'home' %}" class="btn btn-glow">← Back to Homepage</a>
   </div>

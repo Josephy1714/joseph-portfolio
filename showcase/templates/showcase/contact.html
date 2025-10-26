@@ -5,24 +5,25 @@
   <!-- Heading -->
   <h2 class="hero-name">
     {% for word in heading_words %}
-      <span class="animated-word" style="animation-delay: {{ forloop.counter0|floatformat:1|add:heading_offset|floatformat:1 }}s">{{ word }}</span>
+    <span class="animated-word" style="animation-delay: {{ forloop.counter0|mul:"0.2"|add:line_offset|floatformat:1 }}s">{{ word }}</span>
     {% endfor %}
   </h2>
 
   <!-- Paragraphs -->
-  <p class="hero-paragraph">
-    {% for word in para1_words %}
-      <span class="animated-word" style="animation-delay: {{ forloop.counter0|floatformat:1|add:para1_offset|floatformat:1 }}s">{{ word }}</span>
-    {% endfor %}
-  </p>
+  <div class="mt-4">
+    <p class="hero-paragraph">
+      {% for word in para1_words %}
+      <span class="animated-word" style="animation-delay: {{ forloop.counter0|mul:"0.2"|add:line_offset|floatformat:1 }}s">{{ word }}</span>
+      {% endfor %}
+    </p>
+    <p class="hero-paragraph">
+      {% for word in para2_words %}
+       <span class="animated-word" style="animation-delay: {{ forloop.counter0|mul:"0.2"|add:line_offset|floatformat:1 }}s">{{ word }}</span>
+      {% endfor %}
+    </p>
+  </div>
 
-  <p class="hero-paragraph">
-    {% for word in para2_words %}
-      <span class="animated-word" style="animation-delay: {{ forloop.counter0|floatformat:1|add:para2_offset|floatformat:1 }}s">{{ word }}</span>
-    {% endfor %}
-  </p>
-
-  <!-- Glowing Contact Buttons -->
+  <!-- Contact Buttons -->
   <div class="mt-5 d-flex justify-content-center gap-4 flex-wrap">
     <a href="https://wa.me/254111691657" target="_blank" class="glow-button whatsapp">
       <i class="fab fa-whatsapp"></i> WhatsApp Me

@@ -2,39 +2,43 @@
 {% block title %}Projects — Joseph Ombati{% endblock %}
 {% block content %}
 <div class="section text-center mt-5">
+  <!-- Project 1 -->
   <h2 class="hero-name">
     {% for word in heading1_words %}
-      <span class="animated-word" style="animation-delay: {{ forloop.counter0|floatformat:1|add:heading1_offset|floatformat:1 }}s">{{ word }}</span>
+    <span class="animated-word" style="animation-delay: {{ forloop.counter0|mul:"0.2"|add:line_offset|floatformat:1 }}s">{{ word }}</span>
     {% endfor %}
   </h2>
   <p class="hero-paragraph">
     {% for word in project1_words %}
-      <span class="animated-word" style="animation-delay: {{ forloop.counter0|floatformat:1|add:project1_offset|floatformat:1 }}s">{{ word }}</span>
+   <span class="animated-word" style="animation-delay: {{ forloop.counter0|mul:"0.2"|add:line_offset|floatformat:1 }}s">{{ word }}</span>
     {% endfor %}
   </p>
 
+  <!-- Project 2 -->
   <h2 class="hero-name mt-5">
     {% for word in heading2_words %}
-      <span class="animated-word" style="animation-delay: {{ forloop.counter0|floatformat:1|add:heading2_offset|floatformat:1 }}s">{{ word }}</span>
+    <span class="animated-word" style="animation-delay: {{ forloop.counter0|mul:"0.2"|add:line_offset|floatformat:1 }}s">{{ word }}</span>
     {% endfor %}
   </h2>
   <p class="hero-paragraph">
     {% for word in project2_words %}
-      <span class="animated-word" style="animation-delay: {{ forloop.counter0|floatformat:1|add:project2_offset|floatformat:1 }}s">{{ word }}</span>
+     <span class="animated-word" style="animation-delay: {{ forloop.counter0|mul:"0.2"|add:line_offset|floatformat:1 }}s">{{ word }}</span>
     {% endfor %}
   </p>
 
+  <!-- Project 3 -->
   <h2 class="hero-name mt-5">
     {% for word in heading3_words %}
-      <span class="animated-word" style="animation-delay: {{ forloop.counter0|floatformat:1|add:heading3_offset|floatformat:1 }}s">{{ word }}</span>
+      <span class="animated-word" style="animation-delay: {{ forloop.counter0|mul:"0.2"|add:line_offset|floatformat:1 }}s">{{ word }}</span>
     {% endfor %}
   </h2>
   <p class="hero-paragraph">
     {% for word in project3_words %}
-      <span class="animated-word" style="animation-delay: {{ forloop.counter0|floatformat:1|add:project3_offset|floatformat:1 }}s">{{ word }}</span>
+     <span class="animated-word" style="animation-delay: {{ forloop.counter0|mul:"0.2"|add:line_offset|floatformat:1 }}s">{{ word }}</span>
     {% endfor %}
   </p>
 
+  <!-- Back Button -->
   <div class="mt-5">
     <a href="{% url 'home' %}" class="btn btn-glow">← Back to Homepage</a>
   </div>

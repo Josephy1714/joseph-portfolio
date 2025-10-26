@@ -2,26 +2,31 @@
 {% block title %}Joseph Ombati — Data Scientist{% endblock %}
 {% block content %}
 <div class="section text-center mt-5">
+  <!-- Glowing 3D Gradient Title -->
   <h1 class="glow-textured-title">DATA SCIENTIST</h1>
 
+  <!-- Name -->
   <h2 class="hero-name">
     {% for word in name_words %}
-      <span class="animated-word" style="animation-delay: {{ forloop.counter0|floatformat:1|add:name_offset|floatformat:1 }}s">{{ word }}</span>
+    <span class="animated-word" style="animation-delay: {{ forloop.counter0|mul:"0.2"|add:line_offset|floatformat:1 }}s">{{ word }}</span>
     {% endfor %}
   </h2>
 
+  <!-- Role -->
   <p class="hero-tagline">
     {% for word in role_words %}
-      <span class="animated-word" style="animation-delay: {{ forloop.counter0|floatformat:1|add:role_offset|floatformat:1 }}s">{{ word }}</span>
+    <span class="animated-word" style="animation-delay: {{ forloop.counter0|mul:"0.2"|add:line_offset|floatformat:1 }}s">{{ word }}</span>
     {% endfor %}
   </p>
 
+  <!-- Tagline -->
   <p class="hero-mission">
     {% for word in tagline_words %}
-      <span class="animated-word" style="animation-delay: {{ forloop.counter0|floatformat:1|add:tagline_offset|floatformat:1 }}s">{{ word }}</span>
+   <span class="animated-word" style="animation-delay: {{ forloop.counter0|mul:"0.2"|add:line_offset|floatformat:1 }}s">{{ word }}</span>
     {% endfor %}
   </p>
 
+  <!-- Glowing Navigation Buttons -->
   <div class="button-group text-center mt-4">
     <a href="{% url 'about' %}" class="btn btn-glow mx-2">About</a>
     <a href="{% url 'projects' %}" class="btn btn-glow mx-2">Projects</a>
