@@ -27,8 +27,11 @@
     .animated-word {
       display: inline-block;
       opacity: 0;
-      animation: fadeInUp 0.6s ease forwards;
-      animation-delay: calc(var(--word-index, 0) * 0.1s);
+      animation-name: fadeInUp;
+      animation-duration: 0.6s;
+      animation-fill-mode: forwards;
+      animation-timing-function: ease;
+      animation-delay: calc(var(--word-index) * 0.1s);
     }
 
     @keyframes fadeInUp {
