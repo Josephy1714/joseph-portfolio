@@ -1,21 +1,68 @@
 {% extends 'showcase/base.html' %}
 {% block title %}About — Joseph Ombati{% endblock %}
 {% block content %}
-<div class="section">
-  <h2>
+<div class="section text-center mt-5">
+  <!-- Animated Heading -->
+  <h2 class="glow-textured-title">
     {% for word in heading_words %}
       <span class="animated-word">{{ word }}</span>
     {% endfor %}
   </h2>
-  <p>
-    {% for word in para1_words %}
-      <span class="animated-word">{{ word }}</span>
-    {% endfor %}
-  </p>
-  <p>
-    {% for word in para2_words %}
-      <span class="animated-word">{{ word }}</span>
-    {% endfor %}
-  </p>
+
+  <!-- Animated Paragraphs -->
+  <div class="mt-4 text-white">
+    <p>
+      {% for word in para1_words %}
+        <span class="animated-word">{{ word }}</span>
+      {% endfor %}
+    </p>
+    <p>
+      {% for word in para2_words %}
+        <span class="animated-word">{{ word }}</span>
+      {% endfor %}
+    </p>
+  </div>
+
+  <!-- Glowing Back Button -->
+  <div class="mt-5">
+    <a href="{% url 'home' %}" class="btn btn-glow">← Back to Homepage</a>
+  </div>
 </div>
+
+<style>
+  .glow-textured-title {
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #ffffff, #e0e0e0, #f5f5f5, #ffffff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    text-shadow:
+      1px 1px 2px #000,
+      0 0 5px rgba(255, 255, 255, 0.6),
+      0 0 10px rgba(255, 255, 255, 0.4),
+      0 0 20px rgba(255, 255, 255, 0.3);
+    animation: glowPulse 3s ease-in-out infinite alternate;
+    letter-spacing: 0.05em;
+    margin-bottom: 20px;
+  }
+
+  .btn-glow {
+    background: linear-gradient(135deg, #00f2ff, #3a47d5);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-weight: bold;
+    border-radius: 30px;
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.6);
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-glow:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(0, 242, 255, 0.9);
+  }
+</style>
 {% endblock %}
