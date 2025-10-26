@@ -1,30 +1,37 @@
 {% extends 'showcase/base.html' %}
 {% block title %}Joseph Ombati — Data Scientist{% endblock %}
 {% block content %}
-<div class="section">
+<div class="section text-center mt-5">
   <!-- Glowing 3D Gradient Title -->
   <h1 class="glow-textured-title">DATA SCIENTIST</h1>
 
   <!-- Name -->
-  <h2>
+  <h2 class="hero-name">
     {% for word in name_words %}
       <span class="animated-word">{{ word }}</span>
     {% endfor %}
   </h2>
 
   <!-- Role -->
-  <p>
+  <p class="hero-tagline">
     {% for word in role_words %}
       <span class="animated-word">{{ word }}</span>
     {% endfor %}
   </p>
 
   <!-- Tagline -->
-  <p>
+  <p class="hero-mission">
     {% for word in tagline_words %}
       <span class="animated-word">{{ word }}</span>
     {% endfor %}
   </p>
+
+  <!-- Glowing Buttons -->
+  <div class="button-group text-center mt-4">
+    <a href="#about" class="btn btn-glow mx-2">About</a>
+    <a href="#projects" class="btn btn-glow mx-2">Projects</a>
+    <a href="#contact" class="btn btn-glow mx-2">Contact</a>
+  </div>
 </div>
 
 <style>
@@ -63,6 +70,47 @@
         0 0 30px rgba(255, 255, 255, 0.4),
         0 0 60px rgba(255, 255, 255, 0.3);
     }
+  }
+
+  .hero-name {
+    font-size: 3rem;
+    font-weight: bold;
+    color: white;
+  }
+
+  .hero-tagline, .hero-mission {
+    font-size: 1.8rem;
+    color: #ccc;
+  }
+
+  @media (max-width: 768px) {
+    .glow-textured-title {
+      font-size: 4.5rem;
+    }
+    .hero-name {
+      font-size: 3.5rem;
+    }
+    .hero-tagline, .hero-mission {
+      font-size: 2rem;
+    }
+  }
+
+  .btn-glow {
+    background: linear-gradient(135deg, #00f2ff, #3a47d5);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    font-weight: bold;
+    border-radius: 30px;
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.6);
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-glow:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(0, 242, 255, 0.9);
   }
 </style>
 {% endblock %}
