@@ -12,7 +12,8 @@ def home(request):
     return render(request, 'showcase/home.html', {
         'name_words': "Joseph Ombati".split(),
         'role_words': "Data Scientist & Python Developer (Nairobi, Kenya)".split(),
-        'tagline_words': "Solving problems with precision, ethics, and automation.".split()
+        'tagline_words': "Solving problems with precision, ethics, and automation.".split(),
+        'line_offset': 0.2,
     })
 
 def about(request):
@@ -23,7 +24,8 @@ def about(request):
         'para3_words': "I’m also fascinated by the structure behind data workflows. I enjoy designing pipelines that are efficient, reproducible, and scalable—whether that means automating data collection, cleaning messy datasets, or visualizing patterns that weren’t obvious before. I believe that good data science is not just about models, but about thoughtful design, ethical responsibility, and clear communication.".split(),
         'para4_words': "Outside the classroom, I’m constantly experimenting. I build small projects to test what I’m learning—from benchmarking global pay rates to exploring how data can support community initiatives. I’m especially interested in how data science can be applied to social impact, education, and digital equity.".split(),
         'para5_words': "While I’m still early in my journey, I approach every challenge with persistence, humility, and a desire to understand deeply. I’m not just learning how to code—I’m learning how to think like a data scientist: to ask better questions, to test assumptions, and to build systems that make sense of complexity.".split(),
-        'para6_words': "This is just the beginning, but I’m committed to growing into a data scientist who builds responsibly, communicates clearly, and solves problems that matter.".split()
+        'para6_words': "This is just the beginning, but I’m committed to growing into a data scientist who builds responsibly, communicates clearly, and solves problems that matter.".split(),
+        'line_offset': 0.2,
     })
 
 def projects(request):
@@ -35,12 +37,14 @@ def projects(request):
         'project2_words': "I designed a data pipeline to collect, clean, and visualize pay rate data across regions. Using Python, Pandas, and Matplotlib, I created a dashboard that highlights disparities and trends. This project deepened my understanding of data wrangling, exploratory analysis, and ethical data storytelling.".split(),
 
         'heading3_words': "Django-Based Portfolio Website (Full Stack Developer)".split(),
-        'project3_words': "I built a personal portfolio using Django, HTML/CSS, and Bootstrap. The site features modular templates, animated content, and a responsive layout. It serves as both a learning lab and a showcase of my evolving skills in web development, design systems, and user experience.".split()
+        'project3_words': "I built a personal portfolio using Django, HTML/CSS, and Bootstrap. The site features modular templates, animated content, and a responsive layout. It serves as both a learning lab and a showcase of my evolving skills in web development, design systems, and user experience.".split(),
+        'line_offset': 0.2,
     })
 
 def contact(request):
     return render(request, 'showcase/contact.html', {
         'heading_words': "Let’s Collaborate".split(),
         'para1_words': "If you're working on a data science project—whether it's automating workflows, analyzing complex datasets, or building intelligent systems—I’d love to connect. I’m especially passionate about using data to solve real-world problems and create meaningful impact.".split(),
-        'para2_words': "You can reach me via email or message me directly on WhatsApp. I’m open to collaborations, freelance opportunities, or simply exchanging ideas with fellow data enthusiasts.".split()
+        'para2_words': "You can reach me via email or message me directly on WhatsApp. I’m open to collaborations, freelance opportunities, or simply exchanging ideas with fellow data enthusiasts.".split(),
+        'line_offset': 0.2,
     })
