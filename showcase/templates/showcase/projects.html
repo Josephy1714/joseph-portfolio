@@ -10,35 +10,35 @@
   </h2>
   <p class="hero-paragraph">
     {% for word in project1_words %}
-      <span class="animated-word" style="animation-delay: {{ forloop.counter0|floatformat:1 }}s">{{ word }}</span>
+      <span class="animated-word" style="animation-delay: {{ forloop.counter0|add:10|floatformat:1 }}s">{{ word }}</span>
     {% endfor %}
   </p>
 
   <!-- Project 2 -->
   <h2 class="hero-name mt-5">
     {% for word in heading2_words %}
-      <span class="animated-word" style="animation-delay: {{ forloop.counter0|floatformat:1 }}s">{{ word }}</span>
+      <span class="animated-word" style="animation-delay: {{ forloop.counter0|add:20|floatformat:1 }}s">{{ word }}</span>
     {% endfor %}
   </h2>
   <p class="hero-paragraph">
     {% for word in project2_words %}
-      <span class="animated-word" style="animation-delay: {{ forloop.counter0|floatformat:1 }}s">{{ word }}</span>
+      <span class="animated-word" style="animation-delay: {{ forloop.counter0|add:30|floatformat:1 }}s">{{ word }}</span>
     {% endfor %}
   </p>
 
   <!-- Project 3 -->
   <h2 class="hero-name mt-5">
     {% for word in heading3_words %}
-      <span class="animated-word" style="animation-delay: {{ forloop.counter0|floatformat:1 }}s">{{ word }}</span>
+      <span class="animated-word" style="animation-delay: {{ forloop.counter0|add:40|floatformat:1 }}s">{{ word }}</span>
     {% endfor %}
   </h2>
   <p class="hero-paragraph">
     {% for word in project3_words %}
-      <span class="animated-word" style="animation-delay: {{ forloop.counter0|floatformat:1 }}s">{{ word }}</span>
+      <span class="animated-word" style="animation-delay: {{ forloop.counter0|add:50|floatformat:1 }}s">{{ word }}</span>
     {% endfor %}
   </p>
 
-  <!-- Glowing Back Button -->
+  <!-- Back Button -->
   <div class="mt-5">
     <a href="{% url 'home' %}" class="btn btn-glow">← Back to Homepage</a>
   </div>
