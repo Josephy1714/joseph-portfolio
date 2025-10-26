@@ -57,7 +57,6 @@ pydantic==2.11.7
 pydantic_core==2.33.2
 pydeck==0.9.1
 pyparsing==3.2.3
-pypiwin32==223
 python-dateutil==2.9.0.post0
 pyttsx3==2.99
 pytz==2025.2
