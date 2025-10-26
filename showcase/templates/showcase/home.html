@@ -1,0 +1,68 @@
+{% extends 'showcase/base.html' %}
+{% block title %}Joseph Ombati — Data Scientist{% endblock %}
+{% block content %}
+<div class="section">
+  <!-- Glowing 3D Gradient Title -->
+  <h1 class="glow-textured-title">DATA SCIENTIST</h1>
+
+  <!-- Name -->
+  <h2>
+    {% for word in name_words %}
+      <span class="animated-word">{{ word }}</span>
+    {% endfor %}
+  </h2>
+
+  <!-- Role -->
+  <p>
+    {% for word in role_words %}
+      <span class="animated-word">{{ word }}</span>
+    {% endfor %}
+  </p>
+
+  <!-- Tagline -->
+  <p>
+    {% for word in tagline_words %}
+      <span class="animated-word">{{ word }}</span>
+    {% endfor %}
+  </p>
+</div>
+
+<style>
+  .glow-textured-title {
+    font-size: 4rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #ffffff, #e0e0e0, #f5f5f5, #ffffff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    text-shadow:
+      1px 1px 2px #000,
+      0 0 5px rgba(255, 255, 255, 0.6),
+      0 0 10px rgba(255, 255, 255, 0.4),
+      0 0 20px rgba(255, 255, 255, 0.3),
+      0 0 40px rgba(255, 255, 255, 0.2);
+    animation: glowPulse 3s ease-in-out infinite alternate;
+    letter-spacing: 0.1em;
+    margin-bottom: 30px;
+  }
+
+  @keyframes glowPulse {
+    0% {
+      text-shadow:
+        1px 1px 2px #000,
+        0 0 5px rgba(255, 255, 255, 0.6),
+        0 0 10px rgba(255, 255, 255, 0.4),
+        0 0 20px rgba(255, 255, 255, 0.3),
+        0 0 40px rgba(255, 255, 255, 0.2);
+    }
+    100% {
+      text-shadow:
+        1px 1px 2px #000,
+        0 0 10px rgba(255, 255, 255, 0.7),
+        0 0 20px rgba(255, 255, 255, 0.5),
+        0 0 30px rgba(255, 255, 255, 0.4),
+        0 0 60px rgba(255, 255, 255, 0.3);
+    }
+  }
+</style>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'showcase/base.html' %}
+{% block title %}About — Joseph Ombati{% endblock %}
+{% block content %}
+<div class="section">
+  <h2>
+    {% for word in heading_words %}
+      <span class="animated-word">{{ word }}</span>
+    {% endfor %}
+  </h2>
+  <p>
+    {% for word in para1_words %}
+      <span class="animated-word">{{ word }}</span>
+    {% endfor %}
+  </p>
+  <p>
+    {% for word in para2_words %}
+      <span class="animated-word">{{ word }}</span>
+    {% endfor %}
+  </p>
+</div>
+{% endblock %}

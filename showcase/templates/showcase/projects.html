@@ -1,0 +1,39 @@
+{% extends 'showcase/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="section">
+  <h2>
+    {% for word in heading1_words %}
+      <span class="animated-word">{{ word }}</span>
+    {% endfor %}
+  </h2>
+  <p>
+    {% for word in project1_words %}
+      <span class="animated-word">{{ word }}</span>
+    {% endfor %}
+  </p>
+
+  <h2>
+    {% for word in heading2_words %}
+      <span class="animated-word">{{ word }}</span>
+    {% endfor %}
+  </h2>
+  <p>
+    {% for word in project2_words %}
+      <span class="animated-word">{{ word }}</span>
+    {% endfor %}
+  </p>
+
+  <h2>
+    {% for word in heading3_words %}
+      <span class="animated-word">{{ word }}</span>
+    {% endfor %}
+  </h2>
+  <p>
+    {% for word in project3_words %}
+      <span class="animated-word">{{ word }}</span>
+    {% endfor %}
+  </p>
+</div>
+{% endblock %}

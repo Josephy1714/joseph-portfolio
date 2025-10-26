@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: joseph-portfolio
+    env: python
+    buildCommand: ""
+    startCommand: gunicorn potforlio_site.wsgi:application
+    envVars:
+      - key: DEBUG
+        value: False
