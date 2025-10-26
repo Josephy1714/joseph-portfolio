@@ -8,21 +8,21 @@
   <!-- Name -->
   <h2 class="hero-name">
     {% for word in name_words %}
-      <span class="animated-word">{{ word }}</span>
+      <span class="animated-word" style="animation-delay: {{ forloop.counter0|floatformat:1 }}s">{{ word }}</span>
     {% endfor %}
   </h2>
 
   <!-- Role -->
   <p class="hero-tagline">
     {% for word in role_words %}
-      <span class="animated-word">{{ word }}</span>
+      <span class="animated-word" style="animation-delay: {{ forloop.counter0|floatformat:1 }}s">{{ word }}</span>
     {% endfor %}
   </p>
 
   <!-- Tagline -->
   <p class="hero-mission">
     {% for word in tagline_words %}
-      <span class="animated-word">{{ word }}</span>
+      <span class="animated-word" style="animation-delay: {{ forloop.counter0|floatformat:1 }}s">{{ word }}</span>
     {% endfor %}
   </p>
 
@@ -33,84 +33,4 @@
     <a href="{% url 'contact' %}" class="btn btn-glow mx-2">Contact</a>
   </div>
 </div>
-
-<style>
-  .glow-textured-title {
-    font-size: 4rem;
-    font-weight: 900;
-    background: linear-gradient(135deg, #ffffff, #e0e0e0, #f5f5f5, #ffffff);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    text-shadow:
-      1px 1px 2px #000,
-      0 0 5px rgba(255, 255, 255, 0.6),
-      0 0 10px rgba(255, 255, 255, 0.4),
-      0 0 20px rgba(255, 255, 255, 0.3),
-      0 0 40px rgba(255, 255, 255, 0.2);
-    animation: glowPulse 3s ease-in-out infinite alternate;
-    letter-spacing: 0.1em;
-    margin-bottom: 30px;
-  }
-
-  @keyframes glowPulse {
-    0% {
-      text-shadow:
-        1px 1px 2px #000,
-        0 0 5px rgba(255, 255, 255, 0.6),
-        0 0 10px rgba(255, 255, 255, 0.4),
-        0 0 20px rgba(255, 255, 255, 0.3),
-        0 0 40px rgba(255, 255, 255, 0.2);
-    }
-    100% {
-      text-shadow:
-        1px 1px 2px #000,
-        0 0 10px rgba(255, 255, 255, 0.7),
-        0 0 20px rgba(255, 255, 255, 0.5),
-        0 0 30px rgba(255, 255, 255, 0.4),
-        0 0 60px rgba(255, 255, 255, 0.3);
-    }
-  }
-
-  .hero-name {
-    font-size: 3rem;
-    font-weight: bold;
-    color: white;
-  }
-
-  .hero-tagline, .hero-mission {
-    font-size: 1.8rem;
-    color: #ccc;
-  }
-
-  @media (max-width: 768px) {
-    .glow-textured-title {
-      font-size: 4.5rem;
-    }
-    .hero-name {
-      font-size: 3.5rem;
-    }
-    .hero-tagline, .hero-mission {
-      font-size: 2rem;
-    }
-  }
-
-  .btn-glow {
-    background: linear-gradient(135deg, #00f2ff, #3a47d5);
-    color: white;
-    border: none;
-    padding: 14px 28px;
-    font-weight: bold;
-    border-radius: 30px;
-    box-shadow: 0 0 15px rgba(0, 242, 255, 0.6);
-    transition: transform 0.2s ease, box-shadow 0.3s ease;
-    text-decoration: none;
-    display: inline-block;
-  }
-
-  .btn-glow:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 25px rgba(0, 242, 255, 0.9);
-  }
-</style>
 {% endblock %}

@@ -31,7 +31,6 @@
       animation-duration: 0.6s;
       animation-fill-mode: forwards;
       animation-timing-function: ease;
-      animation-delay: calc(var(--word-index) * 0.1s);
     }
 
     @keyframes fadeInUp {
@@ -64,6 +63,13 @@
       margin-top: 10px;
     }
 
+    .hero-paragraph {
+      font-size: 1.6rem;
+      color: #ddd;
+      margin-top: 15px;
+      line-height: 1.6;
+    }
+
     @media (max-width: 768px) {
       .hero-name {
         font-size: 3rem;
@@ -73,6 +79,9 @@
       }
       .hero-mission {
         font-size: 1.8rem;
+      }
+      .hero-paragraph {
+        font-size: 1.4rem;
       }
     }
 
