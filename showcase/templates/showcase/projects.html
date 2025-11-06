@@ -11,7 +11,7 @@
   </h2>
   <p class="hero-paragraph">
     {% for word in project1_words %}
-   <span class="animated-word" style="animation-delay: {{ forloop.counter0|mul:"0.2"|add:line_offset|floatformat:1 }}s">{{ word }}</span>
+    <span class="animated-word" style="animation-delay: {{ forloop.counter0|mul:"0.2"|add:line_offset|floatformat:1 }}s">{{ word }}</span>
     {% endfor %}
   </p>
 
@@ -23,19 +23,31 @@
   </h2>
   <p class="hero-paragraph">
     {% for word in project2_words %}
-     <span class="animated-word" style="animation-delay: {{ forloop.counter0|mul:"0.2"|add:line_offset|floatformat:1 }}s">{{ word }}</span>
+    <span class="animated-word" style="animation-delay: {{ forloop.counter0|mul:"0.2"|add:line_offset|floatformat:1 }}s">{{ word }}</span>
     {% endfor %}
   </p>
 
   <!-- Project 3 -->
   <h2 class="hero-name mt-5">
     {% for word in heading3_words %}
-      <span class="animated-word" style="animation-delay: {{ forloop.counter0|mul:"0.2"|add:line_offset|floatformat:1 }}s">{{ word }}</span>
+    <span class="animated-word" style="animation-delay: {{ forloop.counter0|mul:"0.2"|add:line_offset|floatformat:1 }}s">{{ word }}</span>
     {% endfor %}
   </h2>
   <p class="hero-paragraph">
     {% for word in project3_words %}
-     <span class="animated-word" style="animation-delay: {{ forloop.counter0|mul:"0.2"|add:line_offset|floatformat:1 }}s">{{ word }}</span>
+    <span class="animated-word" style="animation-delay: {{ forloop.counter0|mul:"0.2"|add:line_offset|floatformat:1 }}s">{{ word }}</span>
+    {% endfor %}
+  </p>
+
+  <!-- Project 4 -->
+  <h2 class="hero-name mt-5">
+    {% for word in heading4_words %}
+    <span class="animated-word" style="animation-delay: {{ forloop.counter0|mul:"0.2"|add:line_offset|floatformat:1 }}s">{{ word }}</span>
+    {% endfor %}
+  </h2>
+  <p class="hero-paragraph">
+    {% for word in project4_words %}
+    <span class="animated-word" style="animation-delay: {{ forloop.counter0|mul:"0.2"|add:line_offset|floatformat:1 }}s">{{ word }}</span>
     {% endfor %}
   </p>
 
