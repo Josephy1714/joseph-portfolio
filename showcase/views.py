@@ -38,6 +38,10 @@ def projects(request):
 
         'heading3_words': "Django-Based Portfolio Website (Full Stack Developer)".split(),
         'project3_words': "I built a personal portfolio using Django, HTML/CSS, and Bootstrap. The site features modular templates, animated content, and a responsive layout. It serves as both a learning lab and a showcase of my evolving skills in web development, design systems, and user experience.".split(),
+
+        'heading4_words': "Titanic Survival Prediction — Interncred Task 1".split(),
+        'project4_words': "As part of my ongoing data science internship at Interncred, I completed Task 1: predicting survival on a synthetic Titanic dataset. I explored Random Forest, Gradient Boosting, and Logistic Regression, achieving 52% accuracy using Gradient Boosting on a simplified feature set. I learned to interpret feature importance, diagnose weak signals, and document the full workflow.".split(),
+
         'line_offset': 0.2,
     })
 
