@@ -53,6 +53,6 @@ def contact(request):
         'line_offset': 0.2,
     })
 def jay(request):
-    return render(request, "jay.html")
+    return render(request, "showcase/jay.html")
 
 
