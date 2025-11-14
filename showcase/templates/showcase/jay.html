@@ -5,14 +5,45 @@
 {% block content %}
 <div class="section">
   <h1 class="glow-textured-title">Ask Jay</h1>
-  <p class="hero-paragraph">
-    Your interactive assistant, right inside my cinematic portfolio.
-  </p>
 
-  <!-- Jay Chat Interface -->
-  <iframe src="https://jay-chatbot-20-o8wsmc4kfgf2tz84c24nzv.streamlit.app/"
-          style="width:100%; height:80vh; border:none; border-radius:15px; 
-                 box-shadow:0 0 20px rgba(0,242,255,0.6);">
-  </iframe>
+  <!-- Chat Container -->
+  <div id="chat-box" class="chat-box">
+    <div class="chat-message bot">👋 Hi, I’m Jay. How can I help?</div>
+  </div>
+
+  <!-- Input Area -->
+  <form id="chat-form" class="chat-form">
+    <input type="text" id="user-input" placeholder="Type your message..." required>
+    <button type="submit" class="glow-button">Send</button>
+  </form>
+
+  <!-- Back Button -->
+  <a href="{% url 'home' %}" class="back-button">← Back</a>
 </div>
+
+<script>
+document.getElementById("chat-form").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const box = document.getElementById("chat-box");
+  const input = document.getElementById("user-input");
+  const text = input.value.trim();
+  if (!text) return;
+
+  // Add user message
+  const userMsg = document.createElement("div");
+  userMsg.className = "chat-message user";
+  userMsg.textContent = text;
+  box.appendChild(userMsg);
+
+  // Temporary bot response (placeholder)
+  const botMsg = document.createElement("div");
+  botMsg.className = "chat-message bot";
+  botMsg.textContent = "Jay: " + text;
+  box.appendChild(botMsg);
+
+  // Reset input and scroll
+  input.value = "";
+  box.scrollTop = box.scrollHeight;
+});
+</script>
 {% endblock %}
