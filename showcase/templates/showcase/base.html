@@ -188,15 +188,9 @@
 </head>
 <body>
 <!-- Floating Ask Jay Assistant Button -->
-<button id="ask-jay-btn">
+<a href="{% url 'jay' %}" id="ask-jay-btn">
   <i class="fa-solid fa-robot"></i> Ask Jay
-</button>
-
-<!-- Jay Chatbot Overlay -->
-<div id="jay-overlay">
-  <iframe src="https://jay-chatbot-20-o8wsmc4kfgf2tz84c24nzv.streamlit.app/"
-          frameborder="0"></iframe>
-</div>
+</a>
 
 <style>
   /* Floating Assistant Button */

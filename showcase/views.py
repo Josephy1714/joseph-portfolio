@@ -52,3 +52,7 @@ def contact(request):
         'para2_words': "You can reach me via email or message me directly on WhatsApp. I’m open to collaborations, freelance opportunities, or simply exchanging ideas with fellow data enthusiasts.".split(),
         'line_offset': 0.2,
     })
+def jay(request):
+    return render(request, "jay.html")
+
+
