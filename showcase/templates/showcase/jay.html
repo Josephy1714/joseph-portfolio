@@ -1,4 +1,6 @@
 {% extends "showcase/base.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'showcase/chat.css' %}">
 
 {% block title %}Ask Jay — Portfolio Assistant{% endblock %}
 
@@ -22,7 +24,7 @@
 </div>
 
 <script>
-document.getElementById("chat-form").addEventListener("submit", function(e) {
+document.getElementById("chat-form").addEventListener("submit", async function(e) {
   e.preventDefault();
   const box = document.getElementById("chat-box");
   const input = document.getElementById("user-input");
@@ -35,15 +37,48 @@ document.getElementById("chat-form").addEventListener("submit", function(e) {
   userMsg.textContent = text;
   box.appendChild(userMsg);
 
-  // Temporary bot response (placeholder)
+  // Show "typing..." placeholder
   const botMsg = document.createElement("div");
   botMsg.className = "chat-message bot";
-  botMsg.textContent = "Jay: " + text;
+  botMsg.innerHTML = 'Jay is typing <div class="typing-dots"><span></span><span></span><span></span></div>';
   box.appendChild(botMsg);
 
   // Reset input and scroll
   input.value = "";
   box.scrollTop = box.scrollHeight;
+
+  // Call backend
+  try {
+    const res = await fetch("/chat/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ message: text })
+    });
+
+    if (!res.ok) {
+      botMsg.textContent = "Sorry — something went wrong.";
+      return;
+    }
+
+const data = await res.json();
+
+// Add a 2-second delay so typing dots stay visible
+setTimeout(() => {
+  botMsg.textContent = data.reply || "No reply received.";
+  box.scrollTo({
+    top: box.scrollHeight,
+    behavior: "smooth"
+  });
+}, 2000); // 2 second delay
+    box.scrollTo({
+  top: box.scrollHeight,
+  behavior: "smooth"
+});
+  } catch (err) {
+    botMsg.textContent = "Network error — try again.";
+  }
 });
 </script>
 {% endblock %}
