@@ -4,15 +4,21 @@
   <meta charset="UTF-8">
   <title>{% block title %}Joseph Ombati — Portfolio{% endblock %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Bootstrap & Font Awesome -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- SEO & Social Metadata -->
   <meta name="google-site-verification" content="eXkkcWi13muz0gwSR4NxgkFjiCKnyaUtaEILbCfniPg" />
   <meta property="og:title" content="Joseph Ombati | Data Scientist at The University of Nairobi">
   <meta property="og:description" content="Explore josephombati.tech — a cinematic, modular data science portfolio built for global accessibility.">
   <meta property="og:url" content="https://www.josephombati.tech">
   <meta property="og:type" content="website">
   <meta name="description" content="Joseph Ombati is a first-year Data Science student at The University of Nairobi, based in Nairobi City, Kenya. He applies data science to solve real-world problems through modular Python workflows, ethical automation, and cinematic web platforms designed for global accessibility.">
+
+  <!-- Schema.org JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -39,8 +45,8 @@
   }
   </script>
 
+  <!-- Cinematic Styles -->
   <style>
-    /* Your existing cinematic styles here — unchanged */
     body {
       margin: 0;
       padding: 0;
@@ -56,36 +62,141 @@
       100% { background-position: 1000px 1000px; }
     }
 
-    /* Floating Ask Jay Button */
+    .animated-word {
+      display: inline-block;
+      opacity: 0;
+      animation-name: fadeInUp;
+      animation-duration: 0.6s;
+      animation-fill-mode: forwards;
+      animation-timing-function: ease;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-name {
+      font-size: 4rem;
+      font-weight: bold;
+      color: white;
+      margin-top: 20px;
+    }
+
+    .hero-tagline {
+      font-size: 2.5rem;
+      color: #ccc;
+      margin-top: 15px;
+    }
+
+    .hero-mission {
+      font-size: 2.2rem;
+      color: #ccc;
+      margin-top: 10px;
+    }
+
+    .hero-paragraph {
+      font-size: 1.6rem;
+      color: #ddd;
+      margin-top: 15px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      .hero-name { font-size: 3rem; }
+      .hero-tagline { font-size: 2rem; }
+      .hero-mission { font-size: 1.8rem; }
+      .hero-paragraph { font-size: 1.4rem; }
+    }
+
+    .btn-glow, .glow-button {
+      background: linear-gradient(135deg, #00f2ff, #3a47d5);
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      font-weight: bold;
+      border-radius: 30px;
+      box-shadow: 0 0 15px rgba(0, 242, 255, 0.6);
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-glow:hover, .glow-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(0, 242, 255, 0.9);
+    }
+
+    .glow-button.whatsapp {
+      background: linear-gradient(135deg, #25D366, #128C7E);
+    }
+
+    .glow-button.email {
+      background: linear-gradient(135deg, #FF6B6B, #C81D25);
+    }
+
+    .glow-textured-title {
+      font-size: 5rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #ffffff, #e0e0e0, #f5f5f5, #ffffff);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      text-shadow:
+        1px 1px 2px #000,
+        0 0 5px rgba(255, 255, 255, 0.6),
+        0 0 10px rgba(255, 255, 255, 0.4),
+        0 0 20px rgba(255, 255, 255, 0.3),
+        0 0 40px rgba(255, 255, 255, 0.2);
+      animation: glowPulse 3s ease-in-out infinite alternate;
+      letter-spacing: 0.1em;
+      margin-bottom: 30px;
+    }
+
+    @keyframes glowPulse {
+      0% {
+        text-shadow:
+          1px 1px 2px #000,
+          0 0 5px rgba(255, 255, 255, 0.6),
+          0 0 10px rgba(255, 255, 255, 0.4),
+          0 0 20px rgba(255, 255, 255, 0.3),
+          0 0 40px rgba(255, 255, 255, 0.2);
+      }
+      100% {
+        text-shadow:
+          1px 1px 2px #000,
+          0 0 10px rgba(255, 255, 255, 0.7),
+          0 0 20px rgba(255, 255, 255, 0.5),
+          0 0 30px rgba(255, 255, 255, 0.4),
+          0 0 60px rgba(255, 255, 255, 0.3);
+      }
+    }
+
+    .section {
+      padding: 40px 20px;
+    }
+
+    /* Floating Assistant Button */
     #ask-jay-btn {
       position: fixed;
       bottom: 40px;
       right: 30px;
-      background: rgba(0, 102, 204, 0.8);
+      background: linear-gradient(135deg, #00f2ff, #3a47d5);
       color: white;
-      padding: 12px 20px;
-      border-radius: 25px;
+      padding: 14px 24px;
+      border-radius: 50px;
       font-weight: bold;
-      text-decoration: none;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(0, 242, 255, 0.7);
       transition: all 0.3s ease;
-      z-index: 9999;
+      z-index: 10000;
+    }
+
+    #ask-jay-btn i {
+      margin-right: 8px;
     }
 
     #ask-jay-btn:hover {
-      background: rgba(0, 102, 204, 1);
-      transform: translateY(-3px);
-    }
-  </style>
-</head>
-<body>
-  {% block content %}{% endblock %}
-
-  <!-- Floating Ask Jay Button -->
-  <a href="https://jay-chatbot-20-o8wsmc4kfgf2tz84c24nzv.streamlit.app/" 
-     target="_blank" 
-     id="ask-jay-btn">
-     Ask Jay
-  </a>
-</body>
-</html>
+      transform: scale(1.1);
+      box-shadow: 0 0 30px rgba(0, 242, 255, 
