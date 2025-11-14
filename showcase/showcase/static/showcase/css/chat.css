@@ -1,0 +1,70 @@
+.chat-box {
+  background: rgba(0,0,0,0.4);
+  border-radius: 12px;
+  padding: 20px;
+  height: 60vh;
+  overflow-y: auto;
+  box-shadow: 0 0 20px rgba(0,242,255,0.4);
+}
+
+.chat-message {
+  font-family: 'Orbitron', sans-serif;
+  color: #fff;
+  text-shadow: 0 0 8px #00f6ff;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 8px;
+}
+
+.chat-message.user {
+  background: rgba(0,246,255,0.1);
+  text-align: right;
+}
+
+.chat-message.bot {
+  background: rgba(255,255,255,0.05);
+  text-align: left;
+}
+
+.chat-form {
+  display: flex;
+  margin-top: 10px;
+}
+
+.chat-form input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+}
+
+.chat-form .glow-button {
+  margin-left: 10px;
+}
+
+.back-button {
+  display: inline-block;
+  margin-top: 20px;
+  color: #00f6ff;
+  text-shadow: 0 0 8px #00f6ff;
+}
+.back-button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  background: rgba(0,0,0,0.6);
+  color: #00f6ff;
+  text-decoration: none;
+  font-family: 'Orbitron', sans-serif;
+  text-shadow: 0 0 8px #00f6ff;
+  box-shadow: 0 0 12px rgba(0,246,255,0.6);
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background: rgba(0,246,255,0.2);
+  box-shadow: 0 0 20px rgba(0,246,255,0.9);
+}
