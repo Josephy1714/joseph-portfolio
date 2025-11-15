@@ -1,3 +1,8 @@
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import os
+import requests
 from django.shortcuts import render
 
 def get_offsets(word_lists, base_delay=0.2):
@@ -54,5 +59,79 @@ def contact(request):
     })
 def jay(request):
     return render(request, "showcase/jay.html")
+
+def call_ai_api(prompt: str) -> str:
+    api_key = os.environ.get("OPENAI_API_KEY")
+    print("DEBUG — API KEY:", api_key)
+
+    if not api_key:
+        return "API key missing. Set OPENAI_API_KEY."
+
+    # ✅ Load joseph_knowledge.txt
+    try:
+        with open("showcase/joseph_knowledge.txt", "r", encoding="utf-8") as f:
+            knowledge = f.read()
+    except Exception as e:
+        knowledge = "Joseph Ombati is a visionary data scientist based in Nairobi."
+
+    try:
+        response = requests.post(
+            "https://openrouter.ai/api/v1/chat/completions",
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": "openai/gpt-4o-mini",
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": (
+                            "You are Jay, developed by Joseph Ombati. "
+                            "You are his personal assistant, embedded in his portfolio site. "
+                            "Always introduce yourself as Jay, Joseph’s assistant. "
+                            "Speak in Joseph’s voice — cinematic, confident, and helpful."
+                        ),
+                    },
+                    {"role": "system", "content": knowledge},  # ✅ inject joseph_knowledge.txt
+                    {"role": "user", "content": prompt},
+                ],
+                "temperature": 0.7,
+            },
+            timeout=30,
+        )
+        response.raise_for_status()
+        data = response.json()
+        print("DEBUG — API RESPONSE:", data)
+
+        if "choices" in data:
+            choice = data["choices"][0]
+            if "message" in choice:
+                return choice["message"]["content"].strip()
+            elif "text" in choice:
+                return choice["text"].strip()
+        return "No valid reply in response."
+    except Exception as e:
+        print("DEBUG — API CALL ERROR:", e)
+        return "Sorry — something went wrong."
+        
+@csrf_exempt
+def chat_view(request):
+    if request.method != "POST":
+        return JsonResponse({"error": "Only POST allowed"}, status=405)
+
+    try:
+        data = json.loads(request.body.decode("utf-8"))
+        user_message = data.get("message", "").strip()
+        if not user_message:
+            return JsonResponse({"error": "Message is required"}, status=400)
+
+        # Placeholder reply — we’ll replace this later with your real AI call
+        reply = call_ai_api(user_message)
+
+        return JsonResponse({"reply": reply}, status=200)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
 
 

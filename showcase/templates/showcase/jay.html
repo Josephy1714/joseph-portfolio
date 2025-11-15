@@ -10,13 +10,17 @@
 
   <!-- Chat Container -->
   <div id="chat-box" class="chat-box">
-    <div class="chat-message bot">👋 Hi, I’m Jay. How can I help?</div>
+    <div class="chat-row bot-row">
+      <div class="chat-message bot">👋 Hi, I’m Jay. How can I help?</div>
+    </div>
   </div>
 
   <!-- Input Area -->
   <form id="chat-form" class="chat-form">
     <input type="text" id="user-input" placeholder="Type your message..." required>
-    <button type="submit" class="glow-button">Send</button>
+    <button type="submit" class="glow-button">
+  ▶
+</button>
   </form>
 
   <!-- Back Button -->
@@ -32,16 +36,22 @@ document.getElementById("chat-form").addEventListener("submit", async function(e
   if (!text) return;
 
   // Add user message
-  const userMsg = document.createElement("div");
-  userMsg.className = "chat-message user";
-  userMsg.textContent = text;
-  box.appendChild(userMsg);
+  const userRow = document.createElement("div");
+  userRow.className = "chat-row user-row";
+  const userBubble = document.createElement("div");
+  userBubble.className = "chat-message user";
+  userBubble.textContent = text;
+  userRow.appendChild(userBubble);
+  box.appendChild(userRow);
 
   // Show "typing..." placeholder
-  const botMsg = document.createElement("div");
-  botMsg.className = "chat-message bot";
-  botMsg.innerHTML = 'Jay is typing <div class="typing-dots"><span></span><span></span><span></span></div>';
-  box.appendChild(botMsg);
+  const botRow = document.createElement("div");
+  botRow.className = "chat-row bot-row";
+  const botBubble = document.createElement("div");
+  botBubble.className = "chat-message bot";
+  botBubble.innerHTML = 'Jay is typing <div class="typing-dots"><span></span><span></span><span></span></div>';
+  botRow.appendChild(botBubble);
+  box.appendChild(botRow);
 
   // Reset input and scroll
   input.value = "";
@@ -58,26 +68,32 @@ document.getElementById("chat-form").addEventListener("submit", async function(e
     });
 
     if (!res.ok) {
-      botMsg.textContent = "Sorry — something went wrong.";
+      botBubble.textContent = "Sorry — something went wrong.";
       return;
     }
 
-const data = await res.json();
+    const data = await res.json();
 
-// Add a 2-second delay so typing dots stay visible
-setTimeout(() => {
-  botMsg.textContent = data.reply || "No reply received.";
-  box.scrollTo({
-    top: box.scrollHeight,
-    behavior: "smooth"
-  });
-}, 2000); // 2 second delay
-    box.scrollTo({
-  top: box.scrollHeight,
-  behavior: "smooth"
-});
+    // Add a 2-second delay so typing dots stay visible
+    setTimeout(() => {
+      // Replace typing bubble with actual reply
+      botBubble.innerHTML = ""; // clear typing
+      const replyBubble = document.createElement("div");
+      replyBubble.className = "chat-message bot";
+      replyBubble.textContent = data.reply || "No reply received.";
+
+      const replyRow = document.createElement("div");
+      replyRow.className = "chat-row bot-row";
+      replyRow.appendChild(replyBubble);
+
+      box.replaceChild(replyRow, botRow);
+      box.scrollTo({
+        top: box.scrollHeight,
+        behavior: "smooth"
+      });
+    }, 2000);
   } catch (err) {
-    botMsg.textContent = "Network error — try again.";
+    botBubble.textContent = "Network error — try again.";
   }
 });
 </script>

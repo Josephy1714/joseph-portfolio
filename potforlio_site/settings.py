@@ -1,3 +1,4 @@
+import os
 """
 Django settings for potforlio_site project.
 
@@ -29,6 +30,8 @@ ALLOWED_HOSTS = [
     'joseph-portfolio-930c.onrender.com',
     'josephombati.tech',
     'www.josephombati.tech',
+    '127.0.0.1',
+    'localhost',
 ]
 
 
@@ -124,5 +127,6 @@ STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
