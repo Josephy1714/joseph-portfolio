@@ -44,22 +44,31 @@
 
 
   <style>
-    body {
+      body {
       margin: 0;
       padding: 0;
-      background: url("{% static 'showcase/images/smoke.png' %}") repeat center center fixed;
-      background-size: cover;
-      animation: moveSmoke 120s linear infinite;
-      background-size: cover;
       font-family: 'Segoe UI', sans-serif;
       color: white;
-      animation: moveSmoke 120s linear infinite;
-    }
+}
 
-    @keyframes moveSmoke {
-      0% { background-position: 0 0; }
-      100% { background-position: 1000px 1000px; }
-    }
+      .smoke {
+       position: fixed;
+       top: 0;
+       left: 0;
+       width: 200%;
+       height: 200%;
+       background: url("{% static 'showcase/images/smoke.png' %}") repeat;
+       background-size: cover;
+       filter: hue-rotate(200deg) brightness(1.2); /* makes it blue */
+       animation: moveSmoke 120s linear infinite;
+       opacity: 0.4;
+       z-index: -1; /* stays behind your content */
+}
+
+@keyframes moveSmoke {
+  0% { transform: translate(0,0); }
+  100% { transform: translate(-500px,-500px); }
+}
 
     .animated-word {
       display: inline-block;
@@ -187,24 +196,6 @@
 
     .section {
       padding: 40px 20px;
-	  .smoke {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 200%;
-  height: 200%;
-  background: url("{% static 'showcase/images/smoke.png' %}") repeat;
-  background-size: cover;
-  filter: hue-rotate(200deg) brightness(1.2); /* makes it blue */
-  animation: moveSmoke 120s linear infinite;
-  opacity: 0.4;
-  z-index: -1; /* stays behind your content */
-}
-
-@keyframes moveSmoke {
-  0% { transform: translate(0,0); }
-  100% { transform: translate(-500px,-500px); }
-}
     }
   </style>
 </head>
