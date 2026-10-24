@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowDownRight, ArrowLeft, ArrowUpRight, AudioLines, Check, Command, Github, Linkedin, Mail, Move3D, Sparkles, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { projects, sections, type SectionId } from "@/lib/content";
+import { projects as fallbackProjects, sections as fallbackSections, type SectionId, type PortfolioSection } from "@/lib/content";
 
 const OrbitScene = dynamic(() => import("@/components/OrbitScene"), {
   ssr: false,
@@ -14,6 +14,8 @@ const OrbitScene = dynamic(() => import("@/components/OrbitScene"), {
 export default function Home() {
   const [intro, setIntro] = useState(true);
   const [active, setActive] = useState<SectionId | null>(null);
+  const [sections, setSections] = useState<PortfolioSection[]>(fallbackSections);
+  const [projects, setProjects] = useState(fallbackProjects);
   const [pathway, setPathway] = useState<"all" | "ai" | "data">("all");
   const [sound, setSound] = useState(false);
   const reduceMotion = useReducedMotion();
@@ -23,6 +25,19 @@ export default function Home() {
     const timer = window.setTimeout(() => setIntro(false), 9000);
     return () => window.clearTimeout(timer);
   }, [intro, reduceMotion]);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/public-content", { cache: "no-store" })
+      .then(response => response.ok ? response.json() : null)
+      .then(data => {
+        if (cancelled || !data || data.source !== "database") return;
+        if (Array.isArray(data.sections)) setSections(data.sections);
+        if (Array.isArray(data.projects)) setProjects(data.projects);
+      })
+      .catch(() => undefined);
+    return () => { cancelled = true; };
+  }, []);
 
   const destinations = useMemo(
     () => sections.filter(s => pathway === "all" || s.pathway === "both" || s.pathway === pathway),
