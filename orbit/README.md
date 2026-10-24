@@ -14,10 +14,19 @@ A new, isolated Next.js + React Three Fiber foundation for a cinematic AI & Data
 - Interactive abstract data sphere with orbital destinations
 - AI Work and Data Science pathways
 - Responsive layout and reduced-motion support
-- Curated demo content only
+- Modular content and a private admin workspace foundation
+- Supabase schema with row-level security policies
 
-## Security roadmap
-The private admin dashboard is not considered complete until server-side authentication, authorization, private draft handling, and protected write operations are implemented and tested. Never add real credentials to Git. The Supabase service-role key must remain server-only. No admin login information is displayed on the public site.
+## Private admin setup (not yet production-ready)
+1. Use a dedicated Supabase project; do not apply `supabase/schema.sql` to an existing unrelated project.
+2. Configure `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and server-only `ADMIN_EMAIL` in your environment.
+3. Apply `supabase/schema.sql` after reviewing it.
+4. Disable public sign-ups in Supabase Auth, create the owner user manually, and insert that user's UUID into `public.admin_users`.
+5. Set the owner password directly through the provider's secure flow. Never commit secrets.
+6. Test that unauthenticated users cannot read drafts or write records. Test that authenticated non-admin users cannot write records.
+7. Connect published database records to the public sphere and verify draft content cannot leak through server rendering, caches, or APIs.
+
+The dashboard and schema are an implementation foundation, not a claim that authentication or the content publishing pipeline has already been fully security-tested.
 
 ## Deployment
-Deploy only from a reviewed branch and preview. Production deployment is a separate approval step. Backend provider and schema remain subject to verification before connecting a database.
+Deploy only from a reviewed branch and preview. Production deployment is a separate approval step. Backend project selection and schema application require verification before connecting a database.
