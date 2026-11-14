@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { deleteProjectAction, deleteSectionAction, logoutAction, markMessageReadAction, saveProjectAction, saveSectionAction } from "../actions";
-import "./admin.css";
+import "../admin.css";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Private workspace", robots: { index: false, follow: false, noarchive: true, nosnippet: true } };
