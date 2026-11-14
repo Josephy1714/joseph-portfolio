@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowDownRight, ArrowLeft, ArrowUpRight, AudioLines, Check, Command, Github, Linkedin, Mail, Move3D, Sparkles, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import ContactForm from "@/components/ContactForm";
 import { projects as fallbackProjects, sections as fallbackSections, type SectionId, type PortfolioSection } from "@/lib/content";
 
 const OrbitScene = dynamic(() => import("@/components/OrbitScene"), {
@@ -41,7 +42,7 @@ export default function Home() {
 
   const destinations = useMemo(
     () => sections.filter(s => pathway === "all" || s.pathway === "both" || s.pathway === pathway),
-    [pathway],
+    [pathway, sections],
   );
   const selected = sections.find(s => s.id === active);
 
@@ -95,7 +96,7 @@ export default function Home() {
         <aside className="right-rail">
           <div className="rail-label">EXPLORE THE SYSTEM</div>
           <div className="rail-list">
-            {destinations.slice(0, 5).map((section, i) => (
+            {destinations.map((section, i) => (
               <button key={section.id} className={active === section.id ? "rail-item active" : "rail-item"} onClick={() => openSection(section.id)}>
                 <span className="rail-number">0{i + 1}</span><span>{section.label}</span><ArrowUpRight size={13} />
               </button>
@@ -126,7 +127,7 @@ export default function Home() {
                 <p>{selected.description}</p>
                 {selected.id === "projects" && <div className="project-stack">{projects.map((project, i) => <article className="project-card" key={project.title}><div className="project-number">0{i + 1}</div><div className="project-copy"><span className="project-type">{project.type}</span><h3>{project.title}</h3><p>{project.description}</p><div className="project-tags">{project.tags.map(tag => <span key={tag}>{tag}</span>)}</div><span className="project-status">{project.status}</span><a href={project.href} target="_blank" rel="noreferrer">Explore project <ArrowUpRight size={13} /></a></div></article>)}</div>}
                 {selected.id === "skills" && <div className="skill-cloud">{["Python", "SQL", "Pandas", "NumPy", "Scikit-learn", "XGBoost", "Data visualisation", "Model evaluation", "Annotation QA", "Git & GitHub"].map(skill => <span key={skill}>{skill}</span>)}</div>}
-                {selected.id === "contact" && <div className="contact-actions"><a href="mailto:hello@example.com?subject=Portfolio%20enquiry"><Mail size={16} /> Email Joseph <ArrowUpRight size={14} /></a><a href="https://www.linkedin.com/in/joseph-ombati-623aa8381/" target="_blank" rel="noreferrer"><Linkedin size={16} /> LinkedIn <ArrowUpRight size={14} /></a><a href="https://github.com/Josephy1714" target="_blank" rel="noreferrer"><Github size={16} /> GitHub <ArrowUpRight size={14} /></a><p className="small-note">Placeholder email must be replaced before launch.</p></div>}
+                {selected.id === "contact" && <ContactForm /><div className="contact-actions"><a href="https://www.linkedin.com/in/joseph-ombati-623aa8381/" target="_blank" rel="noreferrer"><Linkedin size={16} /> LinkedIn <ArrowUpRight size={14} /></a><a href="https://github.com/Josephy1714" target="_blank" rel="noreferrer"><Github size={16} /> GitHub <ArrowUpRight size={14} /></a></div>}
                 {selected.id === "cv" && <div className="callout-note"><Check size={15} /> A downloadable, accessible résumé will be attached after the latest CV and claims are verified.</div>}
                 {selected.id === "credentials" && <div className="callout-note"><Check size={15} /> Only verifiable credentials will be published. In-progress applications will not be presented as certifications.</div>}
                 <div className="panel-bottom"><span>JO / ORBIT SYSTEM</span><button className="return-link" onClick={() => setActive(null)}><ArrowLeft size={14} /> RETURN TO SPHERE</button></div>

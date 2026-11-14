@@ -109,3 +109,14 @@ export async function deleteProjectAction(formData: FormData) {
   revalidatePath("/");
   redirect("/admin/dashboard?saved=deleted");
 }
+
+
+export async function markMessageReadAction(formData: FormData) {
+  const supabase = await requireAdmin();
+  const id = String(formData.get("id") ?? "");
+  if (!/^[0-9a-f-]{36}$/i.test(id)) redirect("/admin/dashboard?error=message");
+  const { error } = await supabase.from("contact_submissions").update({ read_at: new Date().toISOString() }).eq("id", id);
+  if (error) redirect("/admin/dashboard?error=message");
+  revalidatePath("/admin/dashboard");
+  redirect("/admin/dashboard?saved=message");
+}

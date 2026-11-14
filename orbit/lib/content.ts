@@ -1,6 +1,4 @@
-export type SectionId =
-  | "about" | "projects" | "skills" | "experience"
-  | "education" | "contact" | "credentials" | "cv" | "ai-work";
+export type SectionId = string;
 
 export type PortfolioSection = {
   id: SectionId;

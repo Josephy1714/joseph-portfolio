@@ -104,3 +104,66 @@ insert into public.portfolio_projects (id,title,description,category,href,featur
 ('titanic-sql-analysis','Titanic SQL Analysis','A structured exploration of passenger data using SQL to ask clear questions, surface patterns, and communicate findings.','data','https://github.com/Josephy1714/titanic-sql-analysis',false,true,1),
 ('careerpilot-ai','CareerPilot AI','A career-support product exploring résumé parsing, job-fit signals, and AI-assisted career workflows.','both','https://github.com/Josephy1714/careerpilotAI',true,true,2)
 on conflict (id) do nothing;
+
+
+-- Private contact inbox. Public callers can submit only through the constrained RPC.
+create schema if not exists private;
+revoke all on schema private from public, anon, authenticated;
+create table if not exists private.contact_rate_limits (
+  ip_hash text not null,
+  window_start timestamptz not null,
+  attempts integer not null default 0,
+  primary key (ip_hash, window_start)
+);
+revoke all on private.contact_rate_limits from public, anon, authenticated;
+
+create table if not exists public.contact_submissions (
+  id uuid primary key default gen_random_uuid(),
+  name text not null check (char_length(name) between 2 and 100),
+  email text not null check (char_length(email) between 5 and 254),
+  company text not null default '' check (char_length(company) <= 120),
+  role text not null default '' check (char_length(role) <= 120),
+  subject text not null check (char_length(subject) between 3 and 160),
+  message text not null check (char_length(message) between 10 and 5000),
+  created_at timestamptz not null default now(),
+  read_at timestamptz
+);
+alter table public.contact_submissions enable row level security;
+revoke all on public.contact_submissions from anon, authenticated;
+grant select, update on public.contact_submissions to authenticated;
+create policy "Admins can read contact submissions" on public.contact_submissions for select to authenticated using ((select public.is_orbit_admin()));
+create policy "Admins can mark contact submissions read" on public.contact_submissions for update to authenticated using ((select public.is_orbit_admin())) with check ((select public.is_orbit_admin()));
+
+create or replace function public.submit_contact_message(
+  p_name text, p_email text, p_company text, p_role text, p_subject text, p_message text, p_ip_hash text
+) returns void
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  v_window timestamptz := date_trunc('hour', now());
+  v_attempts integer;
+begin
+  if char_length(trim(p_name)) not between 2 and 100
+    or char_length(trim(p_email)) not between 5 and 254
+    or p_email !~* '^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$'
+    or char_length(coalesce(p_company,'')) > 120
+    or char_length(coalesce(p_role,'')) > 120
+    or char_length(trim(p_subject)) not between 3 and 160
+    or char_length(trim(p_message)) not between 10 and 5000
+    or p_ip_hash !~ '^[a-f0-9]{64}$' then
+    raise exception 'Invalid contact submission';
+  end if;
+  insert into private.contact_rate_limits(ip_hash, window_start, attempts)
+  values (p_ip_hash, v_window, 1)
+  on conflict (ip_hash, window_start) do update
+    set attempts = private.contact_rate_limits.attempts + 1
+  returning attempts into v_attempts;
+  if v_attempts > 3 then raise exception 'Rate limit exceeded'; end if;
+  insert into public.contact_submissions(name,email,company,role,subject,message)
+  values (trim(p_name), lower(trim(p_email)), coalesce(trim(p_company),''), coalesce(trim(p_role),''), trim(p_subject), trim(p_message));
+end;
+$$;
+revoke all on function public.submit_contact_message(text,text,text,text,text,text,text) from public;
+grant execute on function public.submit_contact_message(text,text,text,text,text,text,text) to anon, authenticated;

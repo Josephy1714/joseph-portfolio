@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { deleteProjectAction, deleteSectionAction, logoutAction, saveProjectAction, saveSectionAction } from "../actions";
+import { deleteProjectAction, deleteSectionAction, logoutAction, markMessageReadAction, saveProjectAction, saveSectionAction } from "../actions";
 import "./admin.css";
 
 export const dynamic = "force-dynamic";
@@ -14,13 +14,15 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
   const { data: admin } = await supabase.from("admin_users").select("user_id").eq("user_id", user.id).maybeSingle();
   if (!admin) redirect("/admin?error=not-authorized");
 
-  const [sectionResult, projectResult, params] = await Promise.all([
+  const [sectionResult, projectResult, messageResult, params] = await Promise.all([
     supabase.from("portfolio_sections").select("*").order("sort_order"),
     supabase.from("portfolio_projects").select("*").order("sort_order"),
+    supabase.from("contact_submissions").select("id,name,email,company,role,subject,message,created_at,read_at").order("created_at", { ascending: false }).limit(100),
     searchParams,
   ]);
   const sections = sectionResult.data ?? [];
   const projects = projectResult.data ?? [];
+  const messages = messageResult.data ?? [];
   const issue = params.error ? "Action failed. Check the fields and database setup." : null;
   return (
     <main className="admin-dashboard-shell">
@@ -30,7 +32,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
         <form action={logoutAction}><button className="admin-logout">Sign out ↗</button></form>
       </header>
       <div className="admin-dash-main">
-        <aside className="admin-sidebar"><p className="admin-eyebrow">CONTROL PLANE</p><a className="admin-nav active" href="#overview">Overview</a><a className="admin-nav" href="#sections">Pages & sections</a><a className="admin-nav" href="#projects">Projects</a><a className="admin-nav" href="#security">Security</a><div className="admin-side-foot">DRAFT → PREVIEW → PUBLISH</div></aside>
+        <aside className="admin-sidebar"><p className="admin-eyebrow">CONTROL PLANE</p><a className="admin-nav active" href="#overview">Overview</a><a className="admin-nav" href="#sections">Pages & sections</a><a className="admin-nav" href="#projects">Projects</a><a className="admin-nav" href="#messages">Inbox</a><a className="admin-nav" href="#security">Security</a><div className="admin-side-foot">DRAFT → PREVIEW → PUBLISH</div></aside>
         <section className="admin-workspace">
           <div className="admin-heading-row"><div><p className="admin-eyebrow">PRIVATE / CONTENT MANAGEMENT</p><h1>Command center<span>.</span></h1><p>Manage the portfolio without editing code. Changes are stored as content records; publication is controlled separately.</p></div><a href="/" className="admin-preview-link" target="_blank">View public site ↗</a></div>
           {params.saved && <p className="admin-success" role="status">Saved successfully. Review the public site before considering content published.</p>}
@@ -44,6 +46,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
             <form action={saveProjectAction} className="admin-editor"><h3>Create or edit a project</h3><div className="admin-field-grid"><label>Project ID <input name="id" placeholder="e.g. anomaly-detection" pattern="[a-z0-9-]{2,64}" required /></label><label>Title <input name="title" maxLength={140} required /></label><label className="field-wide">Description <textarea name="description" rows={3} required /></label><label>Pathway <select name="category" defaultValue="data"><option value="data">Data Science</option><option value="ai">AI Work</option><option value="both">Both</option></select></label><label>Display order <input name="sort_order" type="number" defaultValue={0} /></label><label className="field-wide">Project URL (HTTPS only) <input name="href" type="url" placeholder="https://github.com/..." /></label><label className="admin-check"><input name="featured" type="checkbox" /> Featured</label><label className="admin-check"><input name="published" type="checkbox" /> Published</label></div><button className="admin-primary" type="submit">Save project ↗</button><p className="admin-hint">Only publish claims, links and metrics you have verified.</p></form>
             <div className="admin-record-list">{projects.map((p: any) => <article className="admin-record" key={p.id}><div className="admin-record-icon">↗</div><div className="admin-record-copy"><strong>{p.title} <span>/{p.id}</span></strong><p>{p.description}</p><small>{p.category} · Order {p.sort_order} · {p.featured ? "Featured" : "Standard"} · {p.published ? "Published" : "Draft"}</small></div><form action={deleteProjectAction}><input type="hidden" name="id" value={p.id} /><button className="admin-danger" type="submit">Delete</button></form></article>)}</div>
           </section>
+          <section id="messages" className="admin-module"><div className="admin-module-head"><div><p className="admin-eyebrow">03 / PRIVATE INBOX</p><h2>Contact messages</h2><p>Messages submitted through the public contact form. Visible only to the authenticated owner.</p></div><span className="admin-count">{messages.length} MESSAGES</span></div><div className="admin-record-list">{messages.map((m: any) => <article className="admin-record" key={m.id}><div className="admin-record-icon">{m.read_at ? "✓" : "✉"}</div><div className="admin-record-copy"><strong>{m.subject} <span>/{m.read_at ? "READ" : "NEW"}</span></strong><p>{m.message}</p><small>{m.name} · {m.email} · {m.company || "Independent"} · {m.role || "Role not specified"} · {new Date(m.created_at).toLocaleString()}</small></div>{!m.read_at && <form action={markMessageReadAction}><input type="hidden" name="id" value={m.id} /><button className="admin-primary" type="submit">Mark read</button></form>}</article>)}</div></section>
           <section id="security" className="admin-module security-module"><p className="admin-eyebrow">03 / SECURITY POSTURE</p><h2>Private by design.</h2><ul><li>Admin route is not linked from public navigation and is marked no-index.</li><li>Login is restricted to the configured owner email and an explicitly allowlisted auth user.</li><li>Every write action re-checks the authenticated user and allowlist; database row-level security is also required.</li><li>No public sign-up flow exists. Do not add service-role secrets to browser code.</li><li>Content rows marked draft must not be exposed through public reads.</li></ul><p className="admin-hint">Before launch: configure Supabase, apply the schema, create the owner auth user, add that user's UUID to admin_users, and set server environment variables. Test authorization and RLS before publishing.</p></section>
           <footer className="admin-footer">ORBIT OWNER CONSOLE <span>·</span> PRIVATE SESSION <span>·</span> CONTENT CHANGES REQUIRE REVIEW</footer>
         </section>
