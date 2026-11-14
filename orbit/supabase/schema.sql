@@ -1,6 +1,7 @@
 -- Orbit portfolio content model. Apply only to a dedicated project after reviewing it.
 -- Never use this file against an existing unrelated Supabase project.
-create extension if not exists pgcrypto;
+create schema if not exists extensions;
+create extension if not exists pgcrypto with schema extensions;
 
 create table if not exists public.admin_users (
   user_id uuid primary key references auth.users(id) on delete cascade,
@@ -166,6 +167,7 @@ begin
   if v_secret is null or p_signature is null or encode(extensions.hmac(p_ip_hash, v_secret, 'sha256'), 'hex') <> p_signature then
     raise exception 'Invalid contact request';
   end if;
+  delete from private.contact_rate_limits where window_start < now() - interval '24 hours';
   insert into private.contact_rate_limits(ip_hash, window_start, attempts)
   values (p_ip_hash, v_window, 1)
   on conflict (ip_hash, window_start) do update
