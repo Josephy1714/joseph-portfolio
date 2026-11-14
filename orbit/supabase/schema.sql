@@ -109,6 +109,12 @@ on conflict (id) do nothing;
 -- Private contact inbox. Public callers can submit only through the constrained RPC.
 create schema if not exists private;
 revoke all on schema private from public, anon, authenticated;
+create table if not exists private.contact_rate_limit_secret (
+  singleton boolean primary key default true check (singleton),
+  secret text not null check (char_length(secret) >= 32)
+);
+revoke all on private.contact_rate_limit_secret from public, anon, authenticated;
+
 create table if not exists private.contact_rate_limits (
   ip_hash text not null,
   window_start timestamptz not null,
@@ -135,7 +141,7 @@ create policy "Admins can read contact submissions" on public.contact_submission
 create policy "Admins can mark contact submissions read" on public.contact_submissions for update to authenticated using ((select public.is_orbit_admin())) with check ((select public.is_orbit_admin()));
 
 create or replace function public.submit_contact_message(
-  p_name text, p_email text, p_company text, p_role text, p_subject text, p_message text, p_ip_hash text
+  p_name text, p_email text, p_company text, p_role text, p_subject text, p_message text, p_ip_hash text, p_signature text
 ) returns void
 language plpgsql
 security definer
@@ -144,6 +150,7 @@ as $$
 declare
   v_window timestamptz := date_trunc('hour', now());
   v_attempts integer;
+  v_secret text;
 begin
   if char_length(trim(p_name)) not between 2 and 100
     or char_length(trim(p_email)) not between 5 and 254
@@ -155,6 +162,10 @@ begin
     or p_ip_hash !~ '^[a-f0-9]{64}$' then
     raise exception 'Invalid contact submission';
   end if;
+  select secret into v_secret from private.contact_rate_limit_secret where singleton = true;
+  if v_secret is null or p_signature is null or encode(extensions.hmac(p_ip_hash, v_secret, 'sha256'), 'hex') <> p_signature then
+    raise exception 'Invalid contact request';
+  end if;
   insert into private.contact_rate_limits(ip_hash, window_start, attempts)
   values (p_ip_hash, v_window, 1)
   on conflict (ip_hash, window_start) do update
@@ -165,5 +176,5 @@ begin
   values (trim(p_name), lower(trim(p_email)), coalesce(trim(p_company),''), coalesce(trim(p_role),''), trim(p_subject), trim(p_message));
 end;
 $$;
-revoke all on function public.submit_contact_message(text,text,text,text,text,text,text) from public;
-grant execute on function public.submit_contact_message(text,text,text,text,text,text,text) to anon, authenticated;
+revoke all on function public.submit_contact_message(text,text,text,text,text,text,text,text) from public;
+grant execute on function public.submit_contact_message(text,text,text,text,text,text,text,text) to anon, authenticated;

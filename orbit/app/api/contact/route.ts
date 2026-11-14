@@ -1,4 +1,4 @@
-import { createHash } from "node:crypto";
+import { createHash, createHmac } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
@@ -16,10 +16,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Please check the form fields and try again." }, { status: 400 });
     }
     const ip = request.headers.get("x-real-ip") || request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+    const secret = process.env.CONTACT_RATE_LIMIT_SECRET;
+    if (!secret || secret.length < 32) return NextResponse.json({ error: "The contact service is not configured yet." }, { status: 503 });
     const ipHash = createHash("sha256").update(ip).digest("hex");
+    const signature = createHmac("sha256", secret).update(ipHash).digest("hex");
     const supabase = await createSupabaseServerClient();
     const { error } = await supabase.rpc("submit_contact_message", {
-      p_name: name, p_email: email, p_company: company, p_role: role, p_subject: subject, p_message: message, p_ip_hash: ipHash,
+      p_name: name, p_email: email, p_company: company, p_role: role, p_subject: subject, p_message: message, p_ip_hash: ipHash, p_signature: signature,
     });
     if (error) {
       const limited = error.message.toLowerCase().includes("rate limit");
