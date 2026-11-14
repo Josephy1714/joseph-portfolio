@@ -155,7 +155,7 @@ declare
 begin
   if char_length(trim(p_name)) not between 2 and 100
     or char_length(trim(p_email)) not between 5 and 254
-    or p_email !~* '^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$'
+    or p_email !~* '^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$'
     or char_length(coalesce(p_company,'')) > 120
     or char_length(coalesce(p_role,'')) > 120
     or char_length(trim(p_subject)) not between 3 and 160
