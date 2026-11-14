@@ -7,7 +7,7 @@ import "../admin.css";
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Private workspace", robots: { index: false, follow: false, noarchive: true, nosnippet: true } };
 
-export default async function AdminDashboard({ searchParams }: { searchParams: Promise<{ error?: string; saved?: string }> }) {
+export default async function AdminDashboard({ searchParams }: { searchParams: Promise<{ error?: string; saved?: string; editSection?: string; editProject?: string }> }) {
   const supabase = await createSupabaseServerClient().catch(() => null);
   if (!supabase) redirect("/admin?error=setup");
   const { data: { user } } = await supabase.auth.getUser();
@@ -23,6 +23,8 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
   ]);
   const sections = sectionResult.data ?? [];
   const projects = projectResult.data ?? [];
+  const editingSection = sections.find((s: any) => s.id === params.editSection);
+  const editingProject = projects.find((p: any) => p.id === params.editProject);
   const messages = messageResult.data ?? [];
   const issue = params.error ? "Action failed. Check the fields and database setup." : null;
   return (
